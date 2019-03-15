@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends "dashboard/base.html" %}
+    {% block body_block%}
+    <div class="container">
+        <div class="row">
+    {% for Robot in injectme %}
+          <div class="col-sm">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{Robot.robot.robot_name}}</h5>
+                  <ul class="list-group">
+                      <li class="list-group-item">model:{{ Robot.robot.model }}</li>
+                      <li class="list-group-item">battery:{{ Robot.battery }}</li>
+                      <li class="list-group-item">Possition X:{{ Robot.posx }}</li>
+                      <li class="list-group-item">Possition Y:{{ Robot.posy }}</li>
+                      <li class="list-group-item">Orientation: {{ Robot.orientation }}</li>
+                      <li class="list-group-item">state: {{ Robot.orientation }}</li>
+                      <li class="list-group-item">Linear Velocity: {{ Robot.velocity_l }}</li>
+                      <li class="list-group-item">Angular Velocity: {{ Robot.velocity_a }}</li>
+                  </ul>
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+       </div>
+    </div>
+    {% endblock %}

@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.urls import reverse
 
 # Create your models here.
 class Robot(models.Model):
@@ -11,15 +12,16 @@ class Robot(models.Model):
     def __str__(self):
         return self.robot_name
 
+
 class RStatus(models.Model):
     robot = models.ForeignKey(Robot, related_name='robot', on_delete=models.CASCADE,default = 1)
     battery = models.DecimalField(max_digits=12,decimal_places=2,default = 1)
     posx = models.DecimalField(max_digits=12,decimal_places=2,default = 1)
     posy = models.DecimalField(max_digits=12,decimal_places=2,default = 1)
     orientation = models.DecimalField(max_digits=12,decimal_places=2,default = 1)
-    state1 = models.CharField(max_length=150,default = "none")
+    state = models.CharField(max_length=150,default = "none")
     velocity_l = models.DecimalField(max_digits=12,decimal_places=2,default = 1)
     velocity_a = models.DecimalField(max_digits=12,decimal_places=2,default = 1)
 
     def __str__(self):
-        return self.state
+        return self.robot.robot_name

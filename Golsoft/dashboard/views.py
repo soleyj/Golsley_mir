@@ -49,3 +49,14 @@ class RobotsListView(ListView):
         return context
 
 
+
+class MissionsListView(ListView):
+    template_name = 'dashboard/Missions.html'
+    model = models.Missions
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['injectme'] = models.Mission_queue.objects.all()
+        print(context)
+        return context

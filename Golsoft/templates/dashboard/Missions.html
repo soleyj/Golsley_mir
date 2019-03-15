@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% extends "dashboard/base.html" %}
+    {% block body_block%}
+    <div class="container">
+       <div class ="row">
+           <div class = "col">
+               <table class="table">
+                   <h2>MISSIONS AVIABLE</h2>
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Launch!</th>
+                        </tr>
+                    </thead>
+                   <tbody>
+                   {%for mission in missions_list%}
+                        <tr>
+                            <td scope="row">{{mission.id_mission}}</td>
+                            <td>{{mission.name}}</td>
+                            <td><button type="button" class="btn btn-primary">Launch Mission {{mission.id_mission}}</button></td>
+                        </tr>
+                   {%endfor%}
+                   </tbody>
+               </ul>
+            </table>
+           </div>
+           <div class="col">
+                <table class="table">
+                    <h2>MISSIONS QUEUE</h2>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Robot</th>
+                            <th scope="col">State</th>
+                        </tr>
+                    </thead>
+                   <tbody>
+                   {%for mission in injectme%}
+                        <tr>
+                            <td scope="row">{{mission.mission}}</td>
+                            <td>{{mission.asigned_robot.robot_name}}</td>
+                            <td>{{mission.mision_state}}</td>
+                        </tr>
+                   {%endfor%}
+                   </tbody>
+               </ul>
+            </table>
+            </div>
+       </div>
+    </div>
+    {% endblock %}

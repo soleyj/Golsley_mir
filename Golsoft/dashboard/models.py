@@ -25,3 +25,19 @@ class RStatus(models.Model):
 
     def __str__(self):
         return self.robot.robot_name
+
+class Missions(models.Model):
+    id_mission = models.CharField(max_length =150)
+    name = models.CharField(max_length=150,unique = True)
+    url = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
+class Mission_queue(models.Model):
+    mission = models.ForeignKey(Missions, related_name='asigned_mission', on_delete=models.CASCADE)
+    asigned_robot = models.ForeignKey(Robot, related_name='asigned_robot', on_delete=models.CASCADE,null=True, blank=True)
+    mision_state = models.CharField(max_length = 150)
+
+    def __str__(self):
+        return self.mission.name

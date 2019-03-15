@@ -48,15 +48,32 @@ def get_status(data):
         except:
             pass
 
-def get_missions(data):
 
+def get_missions(data):
     json = Driver_MIR.get_missions(data['robot'].ip, data['robot'].auth)
 
     if json is not None:
         try:
-            new_missions = Missions()
-            ###########
-            new_missions.save()
+            for mission in json:
+                new_mission = Missions()
+                new_mission.id_mission = mission['id']
+                new_mission.name = mission['name']
+                new_mission.url = mission['url']
+                new_mission.save()
+        except:
+            pass
+
+
+def get_mission_queue(data):
+    json = Driver_MIR.get_mission_queue(data['robot'].ip, data['robot'].auth)
+
+    if json is not None:
+        try:
+            new_mission_queue = Mission_queue()
+            new_mission_queue.mission = Missions.objects.all()(json['241']['id'])  # REVISAR
+            new_mission_queue.asigned_robot = data['robot']
+            new_mission_queue.url = json['url']
+            new_mission_queue.save()
         except:
             pass
 

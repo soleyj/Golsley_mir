@@ -74,7 +74,14 @@ def get_missions(robot_ip,auth):
             return None
             pass
     
-
+def get_mission_queue(robot_ip,auth):
+    json = get_json(robot_ip,auth,"mission_queue")
+    if json is not None:
+        try:
+            return json
+        except:
+            return None
+            pass
     
 
 

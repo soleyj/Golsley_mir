@@ -84,5 +84,5 @@ class get_more_tables(TemplateView):
 def change_state(request):
     robot_id = int(request.GET['robot_id'])
     print(robot_id)
-    //call the api here with the correct id
+    #call the api here with the correct id
     return HttpResponse("OK")

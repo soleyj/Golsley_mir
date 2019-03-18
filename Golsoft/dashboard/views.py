@@ -16,7 +16,7 @@ class IndexView(TemplateView):
 
     def get_context_data(self,**kwargs):
         context  = super().get_context_data(**kwargs)
-        context['injectme'] = "Basic Injection!"
+        context['injectme'] = "GOLSLEY SOFTWARE FOR MIR ROBOTS"
         return context
 
 
@@ -45,7 +45,6 @@ class RobotsListView(ListView):
 
         queryset_list_ = models.RStatus.objects.filter(robot__robot_name=str('Mir_154')).order_by('-id').first()
         context['injectme'] = queryset_list
-        print(context)
         return context
 
 
@@ -58,5 +57,32 @@ class MissionsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['injectme'] = models.Mission_queue.objects.all()
+        return context
+
+class get_more_tables(TemplateView):
+    model = models.Robot
+    template_name = 'dashboard/get_more_tables.html'
+
+
+    def get_context_data(self,**kwargs):
+        context  = super().get_context_data(**kwargs)
+        field = models.Robot.objects.all()
+        queryset_list = set()
+        print("hello WOrld AJAX WORKS XD")
+        for robots in field:
+            field_=getattr(robots,'robot_name')
+            print(field_)
+            queryset_list.add(models.RStatus.objects.filter(robot__robot_name=str(field_)).order_by('-id').first())
+            print(queryset_list)
+
+
+        queryset_list_ = models.RStatus.objects.filter(robot__robot_name=str('Mir_154')).order_by('-id').first()
+        context['injectme'] = queryset_list
         print(context)
         return context
+
+def change_state(request):
+    robot_id = int(request.GET['robot_id'])
+    print(robot_id)
+    //call the api here with the correct id
+    return HttpResponse("OK")

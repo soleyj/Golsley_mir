@@ -83,5 +83,15 @@ def get_mission_queue(robot_ip,auth):
             return None
             pass
     
+def post_new_mission(robot_ip,auth,mission_id):
+    ##new to creat the correct data!
+    data = 0
+    json = post_json(robot_ip,auth,"missions",data)
+    if json is not None:
+        try:
+            return json
+        except:
+            return None
+            pass
 
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends "dashboard/base.html" %}
+{% load staticfiles %}
     {% block body_block%}
     <div class="container">
        <div class ="row">
@@ -18,14 +19,16 @@
                         <tr>
                             <td scope="row">{{mission.id_mission}}</td>
                             <td>{{mission.name}}</td>
-                            <td><button type="button" class="btn btn-primary">Launch Mission {{mission.id_mission}}</button></td>
+                            <td><button type="button" class="btn btn-primary addMission" member_id= "{{mission.id_mission}}">Launch Mission {{mission.id_mission}}</button></td>
                         </tr>
                    {%endfor%}
                    </tbody>
                </ul>
             </table>
+            <td><button type="button" class="btn btn-primary updateMissons" id= "refresh">Refresh Robot Missons</button></td>
            </div>
-           <div class="col">
+          
+           <div class="col "">
                 <table class="table">
                     <h2>MISSIONS QUEUE</h2>
                     <thead>
@@ -33,14 +36,29 @@
                             <th scope="col">Name</th>
                             <th scope="col">Robot</th>
                             <th scope="col">State</th>
+                            <th scope="col">ABORT</th>
+                            <th scope="col">Request Time</th>
                         </tr>
                     </thead>
-                   <tbody>
+                   <tbody id="_appendHere">
                    {%for mission in injectme%}
-                        <tr>
+                        <tr >
                             <td scope="row">{{mission.mission}}</td>
                             <td>{{mission.asigned_robot.robot_name}}</td>
-                            <td>{{mission.mision_state}}</td>
+                            {%if mission.mision_state  == 1%}
+                            <td>WOK</td>
+                            <td></td>
+                            {%elif mission.mision_state  == 0%}
+                            <td>Waiting robot</td>
+                            <td><button type="button" class="btn btn-danger abort" member_id= "{{mission.id}} ">ABORT</button></td>
+                            {%elif mission.mision_state  == -1%}
+                            <td>Aborted</td>
+                            <td></td>
+                            {%else %}
+                            <td>ERROR</td>
+                            <td></td>
+                            {%endif %}  
+                            <td>{{ mission.time_request| date:"jS F H:i:s"}}</td>                   
                         </tr>
                    {%endfor%}
                    </tbody>
@@ -49,4 +67,11 @@
             </div>
        </div>
     </div>
+</script>
+    <script>
+    var new_mission_url = " {% url 'dashboard:get_new_missions' %}" 
+    var add_mission_url = " {% url 'dashboard:add_mission_url' %}" 
+    var cancel_mission_url = " {% url 'dashboard:cancel_mission_url' %}" 
+    </script>
+    <script src="{% static "dashboard/mission.js" %}" ></script>
     {% endblock %}

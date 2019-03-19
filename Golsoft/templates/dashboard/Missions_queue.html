@@ -1,0 +1,20 @@
+{%for mission in injectme%}
+                        <tr >
+                            <td scope="row">{{mission.mission}}</td>
+                            <td>{{mission.asigned_robot.robot_name}}</td>
+                            {%if mission.mision_state  == 1%}
+                            <td>WOK</td>
+                            <td></td>
+                            {%elif mission.mision_state  == 0%}
+                            <td>Waiting robot</td>
+                            <td><button type="button" class="btn btn-danger abort" member_id= "{{mission.id}} ">ABORT</button></td>
+                            {%elif mission.mision_state  == -1%}
+                            <td>Aborted</td>
+                            <td></td>
+                            {%else %}
+                            <td>ERROR</td>
+                            <td></td>
+                            {%endif %}  
+                            <td>{{ mission.time_request| date:"jS F H:i:s"}}</td>                         
+                        </tr>
+                   {%endfor%}

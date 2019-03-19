@@ -19,15 +19,14 @@ def get_robot_info(data):
             new_robot = Robot()
             new_robot.model = json['robot_model']
             new_robot.name = json['robot_name']
-            new_robot.ip = data['robot'].ip
-            new_robot.auth = data['robot'].auth
+            # new_robot.ip = data['robot'].ip
+            # new_robot.auth = data['robot'].auth
             new_robot.save()
         except:
             pass
 
 
 def get_status(data):
-
     json = Driver_MIR.get_robot_status(data['robot'].ip, data['robot'].auth)
 
     if json is not None:
@@ -81,3 +80,6 @@ def put_state(data):
 
     Driver_MIR.put_state_id(data['robot'].ip, data['robot'].auth,data['value'])
     get_status(data)
+
+def post_new_mission(data):
+    return None

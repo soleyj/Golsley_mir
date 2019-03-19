@@ -13,13 +13,20 @@
                   <ul class="list-group" >
                       <li class="list-group-item" id = "model"{{Robot.robot.model}}>model:{{ Robot.robot.model }}</li>
                       <li class="list-group-item">battery:{{ Robot.battery }}</li>
-                      <li class="list-group-item">Possition X:{{ Robot.posx }}</li>
-                      <li class="list-group-item">Possition Y:{{ Robot.posy }}</li>
-                      <li class="list-group-item">Orientation: {{ Robot.orientation }}</li>
-                      <li class="list-group-item">state: {{ Robot.state }}</li>
+                        {%if Robot.state  == 1%}
+                        <li class="list-group-item">state: Ready</li>
+                        {%elif Robot.state  == 0%}
+                        <li class="list-group-item">state: Pause</li>
+                        {%else %}
+                        <li class="list-group-item">state: ERROR!!</li>
+                        {%endif %}
                       <li class="list-group-item">Linear Velocity: {{ Robot.velocity_l }}</li>
-                      <li class="list-group-item">Angular Velocity: {{ Robot.velocity_a }}</li>
-                      <button type="button" class="btn btn-primary updateButton" member_id ="{{Robot.robot.id}}">Start/stop</button>
+                      {%if Robot.state  == 1%}
+                      <button type="button" class="btn btn-danger updateButton" member_id ="{{Robot.robot.id}}">Stop</button>
+                      {%elif Robot.state  == 0%}
+                      <button type="button" class="btn btn-primary updateButton" member_id ="{{Robot.robot.id}}">Star</button>
+                      {%else %}
+                      {%endif %}
                   </ul>
               </div>
             </div>

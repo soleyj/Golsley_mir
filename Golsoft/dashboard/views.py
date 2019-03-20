@@ -44,7 +44,6 @@ class RobotsListView(ListView):
             print(queryset_list)
 
 
-        queryset_list_ = models.RStatus.objects.filter(robot__robot_name=str('Mir_154')).order_by('-id').first()
         context['injectme'] = queryset_list
         return context
 
@@ -59,6 +58,11 @@ class MissionsListView(ListView):
         context = super().get_context_data(**kwargs)
         context['injectme'] = models.Mission_queue.objects.order_by('-mision_state').all()
         return context
+
+class configuration(ListView):
+    model = models.Robot
+    template_name = 'dashboard/configuration.html'
+
 
 class get_more_tables(TemplateView):
     model = models.Robot
@@ -121,3 +125,7 @@ def cancel_mission_url(request):
     user_dict = {"injectme":user_dict_}
     print(user_dict)
     return render(request,'dashboard/Missions_queue.html',context=user_dict)   
+
+    
+def enter_robot_data(request):
+    return HttpResponse("OK")

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+{% extends "dashboard/base.html" %}
+{% load staticfiles %}
+    {% block body_block%}
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <form>
+                        <h5 class="card-title">Add a new robot</h5>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Robot IP</label>
+                            <input class="form-control form-control-lg" type="text" placeholder="Ex: http/192.168.1.51"> 
+                        </div>
+                        <div class="form-group">
+                                <label for="exampleFormControlInput2">Robot AUTH</label>
+                                <input class="form-control form-control-lg" type="text" placeholder="Auth Code"> 
+                        </div> 
+                        <a href="#" class="btn btn-primary addrobotinfo">Enter Data</a>
+                    </form>
+                </div>
+                <div class="col-8">
+                    <table class="table">
+                        <h2>ROBOTS AVIABLE</h2>
+                        <thead>
+                            <tr>
+                                <th scope="col">id</th>
+                                <th scope="col">Robot</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Remove Robot</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for robots in robot_list%}
+                                {% if robots.verification%}
+                                <tr class="table-primary">
+                                    <td scope="row">{{robots.id}}</td>
+                                    <td>{{robots.robot_name}}</td>
+                                    <td>Correct!!</td>
+                                {%else%}
+                                <tr class="table-warning">
+                                    <td scope="row">{{robots.id}}</td>
+                                    <td>{{robots.robot_name}}</td>
+                                    <td>ERROR!!</td>                           
+                                {%endif%}
+                                    <td><button type="button" class="btn btn-danger removerobotinfo">REMOVE ROBOT!</button></td> 
+                                </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    
+    </script>
+    <script>
+        var enter_robot_data_url = " {% url 'dashboard:enter_robot_data' %}" 
+    </script>
+    <script src="{% static "dashboard/configuration.js" %}" ></script>
+    {% endblock %}

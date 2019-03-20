@@ -48,7 +48,7 @@ def get_status(data):
             pass
 
 
-def get_missions(data):
+def get_missions(data): 
     json = Driver_MIR.get_missions(data['robot'].ip, data['robot'].auth)
 
     if json is not None:

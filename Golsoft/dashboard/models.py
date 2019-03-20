@@ -10,7 +10,7 @@ class Robot(models.Model):
     robot_name = models.CharField(max_length=150,default = "none")
     auth = models.CharField(max_length=150,default = "none")
     ip = models.CharField(max_length=150,default = "none")
-
+    verification = models.BooleanField(default=False)
     def __str__(self):
         return self.robot_name
 

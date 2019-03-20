@@ -12,7 +12,7 @@ from . import MIR_API
 from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from pprint import pprint
-
+from Fleet_Manage import Fleet_manage
 
 jobs_to_methods ={
     'get_status' : MIR_API.get_status,
@@ -25,7 +25,6 @@ jobs_to_methods ={
 
 
 def start():
-
     scheduler = BackgroundScheduler()
     scheduler.add_job(mir_api_main, 'interval',seconds = 0.05)
     scheduler.start()
@@ -41,10 +40,9 @@ def mir_api_main():
      # Run_Next_Job()
     pprint(Job_list)
 
-
 def Update():
     Ording_priority()
-    FIFO_mission_manager()
+    Fleet_manage.Update_fleet_manage()
 
 def Run_Next_Job():
     global Job_list
@@ -93,9 +91,13 @@ def Ording_priority():
             pass
     Job_list=h+m+l
 
-def FIFO_mission_manager():
+
+
+
+def check_free_robots():
     # check if there are robots able
-    field = Robot.objects.all()   
+    field = Robot.objects.all()  
+    free_robot = [] 
     for robots in field:
         check_job = 0
         robot_id=getattr(robots,'id') 
@@ -108,20 +110,20 @@ def FIFO_mission_manager():
                     if(job['data']['robot'].id  == robot_id):
                         check_job = 0
             if (check_job == 1):
-                ## get the last mission ID
-                mission_id = Mission_queue.objects.filter(mision_state = 0).order_by('time_request').first()
-                if(mission_id):
-                    ## set mission_quee add to the robot in order to reasign the same mission
-                    mission_id.mision_state =1
-                    mission_id.asigned_robot = robots
-                    mission_id.save()
-                    Add_Job('add_new_mission',robots, priority='HIGH',value =mission_id.mission.id_mission )
+                free_robot.append(robot_id)
+
+    print(free_robot)
+    return free_robot
 
 
-
-
-
-
+def Mission_to_Robot(robot_id,mission_id):
+    robot = Robot.objects.filter(id = robot_id).get()
+    mission = Mission_queue.objects.filter(id=mission_id).get()
+    print(mission)
+    mission.mision_state = 1
+    mission.asigned_robot = robot
+    mission.save()
+    Add_Job('add_new_mission',robot, priority='HIGH',value =mission.mission.id_mission )
 
 
 

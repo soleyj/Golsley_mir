@@ -35,10 +35,9 @@ def start():
 def mir_api_main():
     
     global Job_list
-    robot = Robot.objects.get(id = 4)
     Update()
      # Run_Next_Job()
-    pprint(Job_list)
+    # pprint(Job_list)
 
 def Update():
     Ording_priority()
@@ -112,14 +111,13 @@ def check_free_robots():
             if (check_job == 1):
                 free_robot.append(robot_id)
 
-    print(free_robot)
+    
     return free_robot
 
 
 def Mission_to_Robot(robot_id,mission_id):
     robot = Robot.objects.filter(id = robot_id).get()
     mission = Mission_queue.objects.filter(id=mission_id).get()
-    print(mission)
     mission.mision_state = 1
     mission.asigned_robot = robot
     mission.save()

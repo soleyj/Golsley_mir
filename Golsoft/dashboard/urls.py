@@ -18,4 +18,5 @@ urlpatterns = [
     path(r'cancel_mission_url', views.cancel_mission_url, name='cancel_mission_url'),
     ## missions views
     path(r'enter_robot_data', views.enter_robot_data, name='enter_robot_data'),
+    path(r'remove_robot_data', views.remove_robot_data, name='remove_robot_data'),
 ]

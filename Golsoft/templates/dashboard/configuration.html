@@ -9,13 +9,13 @@
                 <div class="col-4">
                     <form>
                         <h5 class="card-title">Add a new robot</h5>
-                        <div class="form-group">
+                        <div class="form-group" id = "DynamicValueAssignedHere_2">
                             <label for="exampleFormControlInput1">Robot IP</label>
-                            <input class="form-control form-control-lg" type="text" placeholder="Ex: http/192.168.1.51"> 
+                            <input class="form-control form-control-lg" type="text" placeholder="Ex: http//:192.168.1.51" id ="robot_ip"> 
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id = "DynamicValueAssignedHere_2">
                                 <label for="exampleFormControlInput2">Robot AUTH</label>
-                                <input class="form-control form-control-lg" type="text" placeholder="Auth Code"> 
+                                <input class="form-control form-control-lg" type="text" placeholder="Auth Code" id ="robot_auth"> 
                         </div> 
                         <a href="#" class="btn btn-primary addrobotinfo">Enter Data</a>
                     </form>
@@ -27,24 +27,27 @@
                             <tr>
                                 <th scope="col">id</th>
                                 <th scope="col">Robot</th>
+                                <th scope="col">Ip</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Remove Robot</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="_appendHere">
                             {%for robots in robot_list%}
                                 {% if robots.verification%}
                                 <tr class="table-primary">
                                     <td scope="row">{{robots.id}}</td>
                                     <td>{{robots.robot_name}}</td>
+                                    <td>{{robots.ip}}</td>
                                     <td>Correct!!</td>
                                 {%else%}
                                 <tr class="table-warning">
                                     <td scope="row">{{robots.id}}</td>
                                     <td>{{robots.robot_name}}</td>
+                                    <td>{{robots.ip}}</td>
                                     <td>ERROR!!</td>                           
                                 {%endif%}
-                                    <td><button type="button" class="btn btn-danger removerobotinfo">REMOVE ROBOT!</button></td> 
+                                    <td><button type="button" class="btn btn-danger removerobotinfo" member_id ="{{robots.id}}" >REMOVE ROBOT!</button></td> 
                                 </tr>
                             {%endfor%}
                         </tbody>
@@ -60,6 +63,7 @@
     </script>
     <script>
         var enter_robot_data_url = " {% url 'dashboard:enter_robot_data' %}" 
+        var remove_robot_data_url = " {% url 'dashboard:remove_robot_data' %}" 
     </script>
     <script src="{% static "dashboard/configuration.js" %}" ></script>
     {% endblock %}

@@ -81,7 +81,6 @@ class get_more_tables(TemplateView):
             print(queryset_list)
 
 
-        queryset_list_ = models.RStatus.objects.filter(robot__robot_name=str('Mir_154')).order_by('-id').first()
         context['injectme'] = queryset_list
         print(context)
         return context
@@ -105,7 +104,6 @@ def get_new_missions(request):
 
 
 def add_mission_url(request):
-    model = models.Mission_queue
     mission_id = int(request.GET['mission_id'])
     mission_model = models.Missions.objects.get(id_mission =mission_id)
 
@@ -128,4 +126,18 @@ def cancel_mission_url(request):
 
     
 def enter_robot_data(request):
-    return HttpResponse("OK")
+    robot_ip = str(request.GET['robot_ip'])
+    robot_auth = str(request.GET['robot_auth'])
+    new = models.Robot(ip =robot_ip,auth= robot_auth  )
+    new.save()
+    user_dict_ = models.Robot.objects.all()
+    user_dict = {"injectme":user_dict_}
+    return render(request,'dashboard/robot_info.html',context=user_dict)
+
+def remove_robot_data(request):
+    robot_id = int(request.GET['robot_id'])
+    models.Robot.objects.get(id =robot_id).delete()
+    user_dict_ = models.Robot.objects.all()
+    user_dict = {"injectme":user_dict_}
+    print(user_dict)
+    return render(request,'dashboard/robot_info.html',context=user_dict)

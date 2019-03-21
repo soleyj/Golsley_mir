@@ -1,0 +1,17 @@
+{%for robots in injectme%}
+                                {% if robots.verification%}
+                                <tr class="table-primary">
+                                    <td scope="row">{{robots.id}}</td>
+                                    <td>{{robots.robot_name}}</td>
+                                    <td>{{robots.ip}}</td>
+                                    <td>Correct!!</td>
+                                {%else%}
+                                <tr class="table-warning">
+                                    <td scope="row">{{robots.id}}</td>
+                                    <td>{{robots.robot_name}}</td>
+                                    <td>{{robots.ip}}</td>
+                                    <td>ERROR!!</td>                           
+                                {%endif%}
+                                    <td><button type="button" class="btn btn-danger removerobotinfo" member_id ="{{robots.id}}" >REMOVE ROBOT!</button></td> 
+                                </tr>
+                            {%endfor%}

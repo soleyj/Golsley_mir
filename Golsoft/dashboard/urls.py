@@ -19,4 +19,7 @@ urlpatterns = [
     ## missions views
     path(r'enter_robot_data', views.enter_robot_data, name='enter_robot_data'),
     path(r'remove_robot_data', views.remove_robot_data, name='remove_robot_data'),
+
+    ## statistics views
+    path(r'statistics', views.statistics.as_view(), name='statistics'), 
 ]

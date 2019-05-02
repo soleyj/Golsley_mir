@@ -141,3 +141,9 @@ def remove_robot_data(request):
     user_dict = {"injectme":user_dict_}
     print(user_dict)
     return render(request,'dashboard/robot_info.html',context=user_dict)
+
+
+class statistics(ListView):
+
+    template_name = 'dashboard/statistics.html'
+    model = models.Missions

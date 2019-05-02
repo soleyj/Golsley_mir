@@ -5,33 +5,35 @@
     {% block body_block%}
     <div class="container">
         <div class="row" id="_appendHere">
-        {% for Robot in injectme %}
-          <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">{{Robot.robot.robot_name}}</h5>
-                  <ul class="list-group" >
-                      <li class="list-group-item" id = "model"{{Robot.robot.model}}>model:{{ Robot.robot.model }}</li>
-                      <li class="list-group-item">battery:{{ Robot.battery }}</li>
+            {% for Robot in injectme %}
+            {% if Robot.robot.verification == True%}
+            <div class="col-sm">
+              <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">{{Robot.robot.robot_name}}</h5>
+                    <ul class="list-group" >
+                        <li class="list-group-item" id = "model"{{Robot.robot.model}}>Model: {{ Robot.robot.model }}</li>
+                        <li class="list-group-item">Battery: {{ Robot.battery }} % </li>
+                          {%if Robot.state  == 1%}
+                          <li class="list-group-item">State: Ready</li>
+                          {%elif Robot.state  == 0%}
+                          <li class="list-group-item">State: Pause</li>
+                          {%else %}
+                          <li class="list-group-item">State: ERROR!!</li>
+                          {%endif %}
+                        <li class="list-group-item">Linear Velocity: {{ Robot.velocity_l }}</li>
                         {%if Robot.state  == 1%}
-                        <li class="list-group-item">state: Ready</li>
+                        <button type="button" class="btn btn-danger updateButton" member_id ="{{Robot.robot.id}}">Stop</button>
                         {%elif Robot.state  == 0%}
-                        <li class="list-group-item">state: Pause</li>
+                        <button type="button" class="btn btn-primary updateButton" member_id ="{{Robot.robot.id}}">Start</button>
                         {%else %}
-                        <li class="list-group-item">state: ERROR!!</li>
                         {%endif %}
-                      <li class="list-group-item">Linear Velocity: {{ Robot.velocity_l }}</li>
-                      {%if Robot.state  == 1%}
-                      <button type="button" class="btn btn-danger updateButton" member_id ="{{Robot.robot.id}}">Stop</button>
-                      {%elif Robot.state  == 0%}
-                      <button type="button" class="btn btn-primary updateButton" member_id ="{{Robot.robot.id}}">Start</button>
-                      {%else %}
-                      {%endif %}
-                  </ul>
+                    </ul>
+                </div>
               </div>
             </div>
-          </div>
-        {% endfor %}
+            {%endif %}
+          {% endfor %}
        </div>
     </div>
     <script>

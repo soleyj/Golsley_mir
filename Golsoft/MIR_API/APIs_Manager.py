@@ -98,18 +98,19 @@ def check_free_robots():
     field = Robot.objects.all()  
     free_robot = [] 
     for robots in field:
-        check_job = 0
-        robot_id=getattr(robots,'id') 
-        robot_state = RStatus.objects.filter(robot__id=str(robot_id)).order_by('-id').first()
-        if(robot_state.state == 0):
-            check_job = 1
-            #now check if this robot has job 
-            for job in Job_list:
-                if(job['name'] == 'add_new_mission' ):
-                    if(job['data']['robot'].id  == robot_id):
-                        check_job = 0
-            if (check_job == 1):
-                free_robot.append(robot_id)
+        if robots.verification == True:
+            check_job = 0
+            robot_id=getattr(robots,'id') 
+            robot_state = RStatus.objects.filter(robot__id=str(robot_id)).order_by('-id').first()
+            if(robot_state.state == 0):
+                check_job = 1
+                #now check if this robot has job 
+                for job in Job_list:
+                    if(job['name'] == 'add_new_mission' ):
+                        if(job['data']['robot'].id  == robot_id):
+                            check_job = 0
+                if (check_job == 1):
+                    free_robot.append(robot_id)
 
     
     return free_robot

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+{% extends "dashboard/base.html" %}
+{% load staticfiles %}
+    {% block body_block%}
+        <div class="container">
+            <div class="hadow-none p-3 mb-5 bg-light rounded">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    {%for missions in missions_list%}
+                    {% if missions.name == "Line 2"%}
+                    <button type="button" class="btn btn-primary">{{missions.name}}</button>
+                    {%else%}
+                    <button type="button" class="btn btn-secondary">{{missions.name}}</button>
+                    {%endif%}
+                    {%endfor%}
+                    <button type="button" class="btn btn-secondary">Global</button>
+                </div>
+            </div>
+            <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="card-body">
+                        <h3 class="card-title">Line 2</h5>
+                        <div class="row">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-secondary">24H</button>
+                                <button type="button" class="btn btn-primary">7 days</button>
+                                <button type="button" class="btn btn-secondary">30 days</button>
+                                <button type="button" class="btn btn-secondary">year</button>
+                            </div>
+                        </div>
+                        <p class="card-text">Avergare mission time: 187,7 seconds</p>
+                        <p class="card-text">Times launched: 75</p>
+                        <p class="card-text">Distance traveled: 137,2 km </p>
+                        <a href="#" class="btn btn-primary">Get detailed Pdf Inform</a>
+
+                        </div>
+                </div>
+                <div class="col-8">
+                <h3 class="card-title">Plots</h5>
+                    <div class="row">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-secondary">Avergare mission time</button>
+                            <button type="button" class="btn btn-secondary">Times launched</button>
+                            <button type="button" class="btn btn-primary">Distance traveled</button>
+                        </div>
+                        <canvas id="myChart" style="max-width: 500px;"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+        <script src="{% static "dashboard/statistics.js" %}" ></script>
+        
+    {% endblock %}

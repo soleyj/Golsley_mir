@@ -26,7 +26,7 @@ jobs_to_methods ={
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(mir_api_main, 'interval',seconds = 0.05)
+    scheduler.add_job(mir_api_main, 'interval',seconds = 0.1)
     scheduler.start()
     
 
@@ -36,8 +36,8 @@ def mir_api_main():
     
     global Job_list
     Update()
-     # Run_Next_Job()
-    # pprint(Job_list)
+    Run_Next_Job()
+    pprint(Job_list)
 
 def Update():
     Ording_priority()
@@ -132,7 +132,7 @@ def Mission_to_Robot(robot_id,mission_id):
 
 
 
-status_scheduler = tools.Scheduler(Manager_request_robot_status,0.05)
+status_scheduler = tools.Scheduler(Manager_request_robot_status,0.1)
 Schedulers_list=[status_scheduler]
 
 Job_list = []

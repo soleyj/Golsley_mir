@@ -2,6 +2,11 @@ import requests
 
 version = "/v2.0.0/"
 
+
+
+
+
+
 ### FUNCIONS GENERIQUES
 
 def get_json(robot_ip,auth,path):
@@ -27,7 +32,7 @@ def put_json(robot_ip,auth,path,body):
 def post_json(robot_ip,auth,path,body):
     url = robot_ip + version + path
     headers = {'Authorization': auth, 'Content-Type':'application/json'}
-    r = requests.put(url, headers=headers,json = body)
+    r = requests.post(url, headers=headers,json = body)
     try:
         r.raise_for_status()
         return r.json()
@@ -37,7 +42,7 @@ def post_json(robot_ip,auth,path,body):
 def delete_json(robot_ip,auth,path):
     url = robot_ip + version + path
     headers = {'Authorization': auth, 'Content-Type':'application/json'}
-    r = requests.put(url, headers=headers)
+    r = requests.delete(url, headers=headers)
     try:
         r.raise_for_status()
         return r.json()
@@ -47,6 +52,8 @@ def delete_json(robot_ip,auth,path):
 ### FUNCIONS ESPECIFIQUES
 
 def get_robot_status(robot_ip,auth):
+    print(robot_ip)
+    print(auth)
     json = get_json(robot_ip,auth,"status")
     if json is not None:
         try:
@@ -63,6 +70,12 @@ def put_state_id(robot_ip,auth,status): #0 for pause 1 for ready
     else:
         pass 
     json = put_json(robot_ip,auth,"status",{"state_id":status})
+    if json is not None:
+        try:
+            return json
+        except:
+            return None
+            pass
 
 
 def get_missions(robot_ip,auth):
@@ -95,3 +108,10 @@ def post_new_mission(robot_ip,auth,mission_id):
             pass
 
 
+## TEST
+
+
+# ip = "http://192.168.1.14"
+# auth = "xxx"
+
+# print(get_robot_status(ip,auth))

@@ -97,14 +97,18 @@ def change_state(request):
     return HttpResponse("OK")
 
 def get_new_missions(request):
+    robot_name = "MiR_R165"
+    robot = models.Robot.objects.get(robot_name = robot_name)
+    APIs_Manager.Add_Job('get_missions',robot)
     print("new Missons")
+    
     #call the api to get new mission list!
 
     return HttpResponse("OK")
 
 
 def add_mission_url(request):
-    mission_id = int(request.GET['mission_id'])
+    mission_id = str(request.GET['mission_id'])
     mission_model = models.Missions.objects.get(id_mission =mission_id)
 
     new = models.Mission_queue(mission =mission_model,mision_state= 0 )

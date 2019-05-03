@@ -26,7 +26,7 @@ jobs_to_methods ={
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(mir_api_main, 'interval',seconds = 0.1)
+    scheduler.add_job(mir_api_main, 'interval',seconds = 0.2)
     scheduler.start()
     
 
@@ -37,7 +37,6 @@ def mir_api_main():
     global Job_list
     Update()
     Run_Next_Job()
-    pprint(Job_list)
 
 def Update():
     Ording_priority()
@@ -67,7 +66,10 @@ def Manager_request_robot_status():
                 if(job['data']['robot'].id  == field_):
                     check_job = 1
         if(check_job == 0):#add new api call if is not in the list!!
-            Add_Job('get_status',robots,priority='LOW')
+            if(getattr(robots,'robot_name') =="none"):
+                Add_Job('get_robot',robots,priority='LOW')
+            else:
+                Add_Job('get_status',robots,priority='LOW')
 
 
 
@@ -102,15 +104,15 @@ def check_free_robots():
             check_job = 0
             robot_id=getattr(robots,'id') 
             robot_state = RStatus.objects.filter(robot__id=str(robot_id)).order_by('-id').first()
-            if(robot_state.state == 0):
-                check_job = 1
-                #now check if this robot has job 
-                for job in Job_list:
-                    if(job['name'] == 'add_new_mission' ):
-                        if(job['data']['robot'].id  == robot_id):
-                            check_job = 0
-                if (check_job == 1):
-                    free_robot.append(robot_id)
+            # if(robot_state.state == 0):
+            check_job = 1
+            #now check if this robot has job 
+            for job in Job_list:
+                if(job['name'] == 'add_new_mission' ):
+                    if(job['data']['robot'].id  == robot_id):
+                        check_job = 0
+            if (check_job == 1):
+                free_robot.append(robot_id)
 
     
     return free_robot
@@ -122,6 +124,7 @@ def Mission_to_Robot(robot_id,mission_id):
     mission.mision_state = 1
     mission.asigned_robot = robot
     mission.save()
+    print(mission.mission.id_mission )
     Add_Job('add_new_mission',robot, priority='HIGH',value =mission.mission.id_mission )
 
 
@@ -132,7 +135,7 @@ def Mission_to_Robot(robot_id,mission_id):
 
 
 
-status_scheduler = tools.Scheduler(Manager_request_robot_status,0.1)
+status_scheduler = tools.Scheduler(Manager_request_robot_status,0.5)
 Schedulers_list=[status_scheduler]
 
 Job_list = []

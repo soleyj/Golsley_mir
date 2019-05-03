@@ -9,6 +9,7 @@ from dashboard.models import Robot, RStatus , Mission_queue
 #
 
 def Update_fleet_manage():
+    pass
     FIFO_MANAGE()
 
 

@@ -14,19 +14,24 @@
                     <ul class="list-group" >
                         <li class="list-group-item" id = "model"{{Robot.robot.model}}>Model: {{ Robot.robot.model }}</li>
                         <li class="list-group-item">Battery: {{ Robot.battery }} % </li>
-                          {%if Robot.state  == 1%}
-                          <li class="list-group-item">State: Ready</li>
-                          {%elif Robot.state  == 0%}
-                          <li class="list-group-item">State: Pause</li>
-                          {%else %}
-                          <li class="list-group-item">State: ERROR!!</li>
-                          {%endif %}
+                        <li class="list-group-item">State: {{ Robot.statetext }}  </li>
                         <li class="list-group-item">Linear Velocity: {{ Robot.velocity_l }}</li>
-                        {%if Robot.state  == 1%}
-                        <button type="button" class="btn btn-danger updateButton" member_id ="{{Robot.robot.id}}">Stop</button>
-                        {%elif Robot.state  == 0%}
-                        <button type="button" class="btn btn-primary updateButton" member_id ="{{Robot.robot.id}}">Start</button>
-                        {%else %}
+                        {%if Robot.state == 4%}
+                        <button
+                          type="button"
+                          class="btn btn-primary updateButton"
+                          member_id="{{ Robot.robot.id }}"
+                        >
+                          Start
+                        </button>
+                        {%else%}
+                        <button
+                          type="button"
+                          class="btn btn-danger updateButton"
+                          member_id="{{ Robot.robot.id }}"
+                        >
+                          Stop
+                        </button>
                         {%endif %}
                     </ul>
                 </div>
@@ -45,7 +50,7 @@
         .done(function(response) {
             $('#_appendHere').html(response);
         });
-    }, 100000)
+    }, 1000)
     
     </script>
     <script>

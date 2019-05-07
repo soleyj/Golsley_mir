@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{% extends "dashboard/base.html" %} {% block body_block%}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">SW_mode</th>
+      <th scope="col">Sw_state</th>
+      <th scope="col">Mission</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {%if golsbox_list.0.SW1_mode == 1%}
+      <th scope="row">Call Button</td>
+      {%else %}
+      <th scope="row">Sensor</td>
+      {%endif%}
+      <td>{{golsbox_list.0.SW1_state}}</td>
+      {%if golsbox_list.0.SW1_mode == 1%}
+      <td>
+        <div class="form-group col-sm-6">
+            <select id="inputState" class="form-control">
+              <option selected>{{golsbox_list.0.SW1_mission}}</option>
+              {%for mission in injectme%}
+              <option>{{mission.name}}</option>
+              {%endfor%}
+            </select>
+          </div>
+      </td>
+      {%else %}
+      <td>NOT ABLE</td>
+      {%endif%}
+    </tr>
+    <tr>
+        {%if golsbox_list.0.SW2_mode == 1%}
+        <th scope="row">Call Button</td>
+        {%else %}
+        <th scope="row">Sensor</td>
+        {%endif%}
+        <td>{{golsbox_list.0.SW2_state}}</td>
+        {%if golsbox_list.0.SW2_mode == 1%}
+      <td>
+        <div class="form-group col-sm-6">
+            <select id="inputState" class="form-control">
+              <option selected>{{golsbox_list.0.SW2_mission}}</option>
+              {%for mission in injectme%}
+              <option>{{mission.name}}</option>
+              {%endfor%}
+            </select>
+          </div>
+      </td>
+      {%else %}
+      <td>NOT ABLE</td>
+      {%endif%}
+    </tr>
+    <tr>
+            {%if golsbox_list.0.SW3_mode == 1%}
+            <th scope="row">Call Button</td>
+            {%else %}
+            <th scope="row">Sensor</td>
+            {%endif%}
+            <td>{{golsbox_list.0.SW3_state}}</td>
+            {%if golsbox_list.0.SW3_mode == 1%}
+      <td>
+        <div class="form-group col-sm-6">
+            <select id="inputState" class="form-control">
+              <option selected>{{golsbox_list.0.SW3_mission}}</option>
+              {%for mission in injectme%}
+              <option>{{mission.name}}</option>
+              {%endfor%}
+            </select>
+          </div>
+      </td>
+      {%else %}
+      <td>NOT ABLE</td>
+      {%endif%}
+    </tr>
+    <tr>
+            {%if golsbox_list.0.SW4_mode == 1%}
+            <th scope="row">Call Button</td>
+            {%else %}
+            <th scope="row">Sensor</td>
+            {%endif%}
+            <td>{{golsbox_list.0.SW4_state}}</td>
+            {%if golsbox_list.0.SW4_mode == 1%}
+      <td>
+        <div class="form-group col-sm-6">
+            <select id="inputState" class="form-control">
+              <option selected>{{golsbox_list.0.SW4_mission}}</option>
+              {%for mission in injectme%}
+              <option>{{golsbox_list.0.SW4_mission}}</option>
+              {%endfor%}
+            </select>
+          </div>
+      </td>
+      {%else %}
+      <td>NOT ABLE</td>
+      {%endif%}
+    </tr>
+  </tbody>
+</table>
+<button type="button" class="btn btn-primary">Update</button>
+
+{% endblock %}

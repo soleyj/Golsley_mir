@@ -104,6 +104,16 @@ def post_new_mission(robot_ip,auth,mission_id):
             return None
             pass
 
+def post_register(robot_ip,auth,value2,value):
+    path = "registers/" +str(value2)
+    json = post_json(robot_ip,auth,path,{"value":value})
+    if json is not None:
+        try:
+            return json
+        except:
+            return None
+            pass
+
 
 ## TEST
 
@@ -112,4 +122,4 @@ def post_new_mission(robot_ip,auth,mission_id):
 # ip = "http://192.168.1.151"
 # auth = "Basic ZGlzdHJpYnV0b3I6NjJmMmYwZjFlZmYxMGQzMTUyYzk1ZjZmMDU5NjU3NmU0ODJiYjhlNDQ4MDY0MzNmNGNmOTI5NzkyODM0YjAxNA=="
 
-# print(post_new_mission(ip,auth,"d36d7a03-6d88-11e9-b832-b8aeed74d094"))
+# print(get_mission_queue(ip,auth))

@@ -46,7 +46,13 @@
                             <td scope="row">{{mission.mission}}</td>
                             <td>{{mission.asigned_robot.robot_name}}</td>
                             {%if mission.mision_state  == 1%}
+                            <td>Asigned</td>
+                            <td></td>
+                            {%elif mission.mision_state  == 2%}
                             <td>Working</td>
+                            <td></td>
+                            {%elif mission.mision_state  == 4%}
+                            <td>Finsih</td>
                             <td></td>
                             {%elif mission.mision_state  == 0%}
                             <td>Waiting robot</td>

@@ -27,20 +27,21 @@ def get_robot_info(data):
 
 
 def get_status(data):
-    pass
-    # json = Driver_MIR.get_robot_status(data['robot'].ip, data['robot'].auth)
-    # if json is not None:
-    #     new_rstatus = RStatus()
-    #     new_rstatus.robot = Robot.objects.get(ip=data['robot'].ip)
-    #     new_rstatus.battery = json['battery_percentage']
-    #     new_rstatus.posx = json['position']['x']
-    #     new_rstatus.posy = json['position']['y']
-    #     new_rstatus.orientation = json['position']['orientation']
-    #     new_rstatus.state = json['state_id']
-    #     new_rstatus.statetext = json['state_text']
-    #     new_rstatus.velocity_l = json['velocity']['linear']
-    #     new_rstatus.velocity_a = json['velocity']['angular']
-    #     new_rstatus.save()
+    json = Driver_MIR.get_robot_status(data['robot'].ip, data['robot'].auth)
+    if json is not None:
+        new_rstatus = RStatus()
+        new_rstatus.robot = Robot.objects.get(ip=data['robot'].ip)
+        new_rstatus.battery = json['battery_percentage']
+        new_rstatus.posx = json['position']['x']
+        new_rstatus.posy = json['position']['y']
+        new_rstatus.orientation = json['position']['orientation']
+        new_rstatus.state = json['state_id']
+        new_rstatus.statetext = json['state_text']
+        new_rstatus.velocity_l = json['velocity']['linear']
+        new_rstatus.velocity_a = json['velocity']['angular']
+        new_rstatus.mission_queue_id = json['mission_queue_id']
+        new_rstatus.save()
+    
 
 
 def get_missions(data):
@@ -83,5 +84,10 @@ def put_state(data):
 def post_new_mission(data):
     Driver_MIR.post_new_mission(
         data['robot'].ip, data['robot'].auth, data['value'])
+    # get_status(data)
+    return None
+
+def post_register(data):
+    Driver_MIR.post_register(data['robot'].ip, data['robot'].auth, data['value']['register'], data['value']['value'])
     # get_status(data)
     return None

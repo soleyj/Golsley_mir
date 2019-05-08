@@ -1,13 +1,9 @@
 
 
 import requests
-from dashboard.models import GolsBox, Mission_queue, Missions
+from dashboard.models import GolsBox, Mission_queue, Missions , Robot
 from MIR_API import APIs_Manager
-
-
-def Update_GolBox():
-    check_box()
-    pass
+last_value_sw = [0,0,0,0]
 
 
 def get_sw(ip):
@@ -32,40 +28,45 @@ def put_sw(ip, data):
         return None
 
 
-def check_box():
-    GolBoxs = GolsBox.objects.all()
-    for box in GolBoxs:
-        if(box.SW1_mode == 1):
-            if(box.SW1_state == 1):
-                # add new mission
-                Add_box_mission(box, 1)
-                box.SW1_state = False
-                box.save()
-                APIs_Manager.Add_Job("put_box", box, 0)
-        if(box.SW2_mode == 1):
-            if(box.SW2_state == 1):
-                # add new mission
-                Add_box_mission(box, 2)
-                box.SW2_state = False
-                box.save()
-                APIs_Manager.Add_Job("put_box", box, 1)
-        if(box.SW3_mode == 1):
-            if(box.SW3_state == 1):
-                # add new mission
-                Add_box_mission(box, 3)
-                box.SW3_state = False
-                box.save()
-                APIs_Manager.Add_Job("put_box", box, 2)
-        if(box.SW4_mode == 1):
-            if(box.SW4_state == 1):
-                # add new mission
-                Add_box_mission(box, 4)
-                box.SW4_state = False
-                box.save()
-                APIs_Manager.Add_Job("put_box", box, 3)
+def check_box(id_):
+    box = GolsBox.objects.filter(id=id_).get()
+    robot = Robot.objects.filter(robot_name = "Mir154").get()
+    if(box.SW3_state != last_value_sw[3]):
+        if(box.SW3_state ==1 ):
+            APIs_Manager.Add_Job("post_register", robot, {"register":100,"value":2})
+        else:
+            APIs_Manager.Add_Job("post_register", robot,  {"register":100,"value":1})
         pass
-        APIs_Manager.Add_Job("get_box", box, priority='LOW')
-
+    if(box.SW1_mode == 1):
+        if(box.SW1_state == 1):
+            # add new mission
+            Add_box_mission(box, 1)
+            box.SW1_state = False
+            box.save()
+            APIs_Manager.Add_Job("put_box", box, 0)
+    if(box.SW2_mode == 1):
+        if(box.SW2_state == 1):
+            # add new mission
+            Add_box_mission(box, 2)
+            box.SW2_state = False
+            box.save()
+            APIs_Manager.Add_Job("put_box", box, 1)
+    if(box.SW3_mode == 1):
+        if(box.SW3_state == 1):
+            # add new mission
+            Add_box_mission(box, 3)
+            box.SW3_state = False
+            box.save()
+            APIs_Manager.Add_Job("put_box", box, 2)
+    if(box.SW4_mode == 1):
+        if(box.SW4_state == 1):
+            # add new mission
+            Add_box_mission(box, 4)
+            box.SW4_state = False
+            box.save()
+            APIs_Manager.Add_Job("put_box", box, 3)
+    pass
+    last_value_sw[3] = box.SW3_state 
 
 def Add_box_mission(box, sw):
     # get mission from sw 1
@@ -87,6 +88,7 @@ def Add_box_mission(box, sw):
 
 def get_box(data):
     json = get_sw(data['robot'].ip)
+    
     if json is not None:
         try:
             box_data = GolsBox.objects.get(ip=data["robot"].ip)

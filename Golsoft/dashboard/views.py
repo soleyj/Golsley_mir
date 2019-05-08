@@ -32,7 +32,6 @@ class Golbox(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['injectme'] = models.Missions.objects.all()
-        print(context)
         return context
 
 
@@ -54,10 +53,8 @@ class RobotsListView(ListView):
 
         for robots in field:
             field_ = getattr(robots, 'robot_name')
-            print(field_)
             queryset_list.add(models.RStatus.objects.filter(
                 robot__robot_name=str(field_)).order_by('-id').first())
-            print(queryset_list)
 
         context['injectme'] = queryset_list
         return context
@@ -87,16 +84,13 @@ class get_more_tables(TemplateView):
         context = super().get_context_data(**kwargs)
         field = models.Robot.objects.all()
         queryset_list = set()
-        print("hello WOrld AJAX WORKS XD")
         for robots in field:
             field_ = getattr(robots, 'robot_name')
-            print(field_)
             queryset_list.add(models.RStatus.objects.filter(
                 robot__robot_name=str(field_)).order_by('-id').first())
-            print(queryset_list)
 
         context['injectme'] = queryset_list
-        print(context)
+    
         return context
 
 
@@ -105,10 +99,10 @@ def change_state(request):
     robot = models.Robot.objects.get(id=robot_id)
     robot_state = models.RStatus.objects.filter(
         robot__id=str(robot_id)).order_by('-id').first()
-    if(robot_state.state == 1):
-        APIs_Manager.Add_Job('put_state', robot, 0)
-    elif(robot_state.state == 0):
+    if(robot_state.state == 4):
         APIs_Manager.Add_Job('put_state', robot, 1)
+    else:
+        APIs_Manager.Add_Job('put_state', robot, 0)
     # call the api here with the correct id
     return HttpResponse("OK")
 
@@ -117,7 +111,6 @@ def get_new_missions(request):
     robot_name = "MiR_R165"
     robot = models.Robot.objects.get(robot_name=robot_name)
     APIs_Manager.Add_Job('get_missions', robot)
-    print("new Missons")
 
     # call the api to get new mission list!
 
@@ -132,7 +125,6 @@ def add_mission_url(request):
     new.save()
     user_dict_ = models.Mission_queue.objects.order_by('-mision_state').all()
     user_dict = {"injectme": user_dict_}
-    print(user_dict)
     return render(request, 'dashboard/Missions_queue.html', context=user_dict)
 
 
@@ -143,7 +135,6 @@ def cancel_mission_url(request):
     mode_mission_queue.save()
     user_dict_ = models.Mission_queue.objects.order_by('-mision_state').all()
     user_dict = {"injectme": user_dict_}
-    print(user_dict)
     return render(request, 'dashboard/Missions_queue.html', context=user_dict)
 
 
@@ -162,7 +153,6 @@ def remove_robot_data(request):
     models.Robot.objects.get(id=robot_id).delete()
     user_dict_ = models.Robot.objects.all()
     user_dict = {"injectme": user_dict_}
-    print(user_dict)
     return render(request, 'dashboard/robot_info.html', context=user_dict)
 
 

@@ -30,6 +30,7 @@ class RStatus(models.Model):
         max_digits=12, decimal_places=2, default=1)
     velocity_a = models.DecimalField(
         max_digits=12, decimal_places=2, default=1)
+    mission_queue_id = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.robot.robot_name
@@ -49,7 +50,7 @@ class Mission_queue(models.Model):
         Missions, related_name='asigned_mission', on_delete=models.CASCADE)
     asigned_robot = models.ForeignKey(
         Robot, related_name='asigned_robot', on_delete=models.CASCADE, null=True, blank=True)
-    mision_state = models.IntegerField()  # 3cancelled 2 finish 1 assigned 0 stop
+    mision_state = models.IntegerField()  # 3cancelled 2 executing 1 assigned 0 stop 4 finsh
     robot_queue_id = models.IntegerField(null=True, blank=True)
     time_request = models.DateTimeField(auto_now=True)
 
